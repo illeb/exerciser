@@ -1,6 +1,15 @@
 import { Quiz } from './quiz';
 
-export interface Category {
+export class Category {
+  id: number;
   name: string;
-  quiz: Quiz[];
+  quiz: Quiz[] = [];
+
+  constructor(id: number, name: string, quiz?: Quiz[]) {
+    this.id = id;
+    this.name = name;
+    if(quiz) {
+      this.quiz = quiz;
+    }
+  }
 }
