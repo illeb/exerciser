@@ -2,7 +2,7 @@ import {CommonRoutesConfig} from '../../common/common.routes.config';
 import express from 'express';
 import { getCategories } from '../../database';
 
-export class QuizRoutes extends CommonRoutesConfig {
+export class CategoriesRoutes extends CommonRoutesConfig {
     constructor(app: express.Application) {
         super(app, 'CategoriesRoutes');
     }
