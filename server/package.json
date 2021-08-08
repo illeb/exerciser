@@ -11,7 +11,11 @@
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
     "winson": "^1.0.0",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "cheerio": "^1.0.0-rc.10",
+    "fetch-cookie": "^1.0.0",
+    "node-fetch": "^2.6.1",
+    "request-promise": "^4.2.6"
   },
   "scripts": {
     "start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
