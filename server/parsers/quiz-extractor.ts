@@ -1,3 +1,6 @@
+import { Category } from "../model/category";
+import { Quiz } from "../model/quiz";
+
 const nodeFetch = require('node-fetch');
 const fetch = require('fetch-cookie')(nodeFetch)
 const cheerio = require('cheerio');
@@ -18,11 +21,11 @@ function get$(url: string) {
 }
 
 const baseURL = 'http://www.mininterno.net';
-const parseQuestions = async (bancaDatiId: number) => {
+const parseQuestions = async (bancaDatiId: number): Promise<Category[]> => {
 
   // const $ = await get$(`${baseURL}/beginc.asp?idc=813`);
   const $ = await get$(`${baseURL}/beginc.asp?idc=${bancaDatiId}`);
-  const categorie = $('.eleline2').toArray().map((value: any) => {
+  let categorie = $('.eleline2').toArray().map((value: any) => {
     const nodoLink = $(value);
     return {
       categoria: nodoLink.contents().first().text(),
@@ -31,11 +34,11 @@ const parseQuestions = async (bancaDatiId: number) => {
     }  
   });
 
-  // TODO: da rimuovere categorie
-  const categorieDomande = await Promise.all(categorie.slice(0, 1).map(async ({categoria, link, nDomande}: any) => {
-    nDomande = 1;
+  categorie = categorie.slice(0,1);
+  const categorieDomande = await Promise.all(categorie.map(async ({categoria, link, nDomande}: any) => {
+    nDomande = 10;
     const idCategoria = link.split('ida')[1];
-    let domande: any[] = [];
+    let domande: Quiz[] = [];
     // Questa costruzione è orribile, ma è l'unico modo per creare una catena operazioni scadenzate tra i 3 e 5 secondi
     for(let i = 0; i < nDomande; i++) {
       const quizLink = `${baseURL}/maketest.asp?tif=2&max=${90}&ida=${idCategoria}&sx=0&ord=1&ini=${i+1}`;
@@ -46,20 +49,14 @@ const parseQuestions = async (bancaDatiId: number) => {
       let rispostaEsatta = $('body').html().split('\n').find((s: string | string[]) => s.indexOf('function rightAns(') != -1);
       rispostaEsatta = +rispostaEsatta.split('"')[1].slice(0,1);
 
-      domande = domande.concat({
-        domanda,
-        risposte,
-        rispostaEsatta
-      });
+      domande = domande.concat(new Quiz(null, domanda, risposte, risposte[rispostaEsatta]));;
       await waitFor(getRandomArbitrary(3500, 5230))
     }
 
-    return {
-      categoria,
-      domande
-    }
+    return new Category(null, categoria, domande);
   }));
-  return categorieDomande;
+
+  return categorieDomande as Category[];
 }
 
 export { parseQuestions };
