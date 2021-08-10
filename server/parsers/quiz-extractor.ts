@@ -34,13 +34,15 @@ const parseQuestions = async (bancaDatiId: number): Promise<Category[]> => {
     }
   }).filter((categoria: any) => !categoria.link.includes('idc'));
 
-  const categorieDomande = await Promise.all(categorie.map(async ({categoria, link, nDomande}: any, index: number) => {
+  let categorieDomande: any[] = [];
+  for(let i = 0; i < categorie.length; i++) {
+    const {categoria, link, nDomande} = categorie[i];
     const idCategoria = link.split('ida')[1];
     let domande: Quiz[] = [];
-    console.log(`categoria ${index + 1}/${categorie.length}\n\t`)
+    console.log(`categoria ${i + 1}/${categorie.length}\n\t`)
     // Questa costruzione è orribile, ma è l'unico modo per creare una catena operazioni scadenzate tra i 3 e 5 secondi
-    for(let i = 0; i < nDomande; i++) {
-      const quizLink = `${baseURL}/maketest.asp?tif=2&ida=${idCategoria}&sx=0&ord=1&ini=${i+1}`;
+    for(let j = 0; j < nDomande; j++) {
+      const quizLink = `${baseURL}/maketest.asp?tif=2&ida=${idCategoria}&sx=0&ord=1&ini=${j+1}`;
       const $ = await get$(quizLink);
       const domanda = $('.tDomanda').text().replace('Cerca con Google...', '');
       const risposte = $('.tRisposta').toArray().map((value: any) => $(value).text().substring(1));
@@ -52,13 +54,11 @@ const parseQuestions = async (bancaDatiId: number): Promise<Category[]> => {
 
       process.stdout.clearLine(0);  // clear current text
       process.stdout.cursorTo(0);  // move cursor to beginning of line
-      process.stdout.write(`${i + 1}/${nDomande},`);
-      await waitFor(getRandomArbitrary(900, 1500))
+      process.stdout.write(`${j + 1}/${nDomande},`);
+      await waitFor(getRandomArbitrary(2500, 3500))
     }
-
-    return new Category(null, categoria, domande);
-  }));
-
+    categorieDomande = categorieDomande.concat(new Category(null, categoria, domande));
+  }
   return categorieDomande as Category[];
 }
 

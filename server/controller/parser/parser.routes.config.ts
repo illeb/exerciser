@@ -12,7 +12,7 @@ export class ParserRoutes extends CommonRoutesConfig {
         this.app.route(`/parse/:bancaDatiId`)
           .put(async (req: express.Request, res: express.Response) => {
               const categories = await parseQuestions(+req.params.bancaDatiId);
-              db.putCategory(categories[0]);
+              categories.forEach(category => db.putCategory(category));
               res.status(200).send('ok');
           })
   
