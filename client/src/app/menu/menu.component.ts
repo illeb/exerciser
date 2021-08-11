@@ -15,7 +15,12 @@ import { menu } from './menuItems';
       <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
         <mat-list>
-          <a mat-list-item [routerLink]="nav.path" *ngFor="let nav of menu">{{nav.text}}</a>
+          <div>
+            <mat-list-item class="click" mat-menu-item [routerLink]="nav.path" *ngFor="let nav of menu">
+              {{nav.text}}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
         </mat-list>
       </mat-sidenav>
 

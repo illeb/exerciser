@@ -13,6 +13,10 @@ import { HomeComponent } from './home/home.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestsInterceptor } from './RequestsInterceptor';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -30,13 +34,16 @@ import { RequestsInterceptor } from './RequestsInterceptor';
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatTableModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestsInterceptor, 
       multi: true 
-  }
+    }
   ],
   bootstrap: [AppComponent]
 })
