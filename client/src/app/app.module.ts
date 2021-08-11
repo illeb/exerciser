@@ -11,6 +11,8 @@ import { MenuComponent } from './menu/menu.component';
 import {MatIconModule} from '@angular/material/icon';
 import { HomeComponent } from './home/home.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RequestsInterceptor } from './RequestsInterceptor';
 
 @NgModule({
   declarations: [
@@ -27,8 +29,15 @@ import { CategoriesComponent } from './categories/categories.component';
     MatListModule,
     MatToolbarModule,
     MatIconModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestsInterceptor, 
+      multi: true 
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,13 +5,12 @@ import { menu } from './menuItems';
 @Component({
   selector: 'app-menu',
   template: `
-  <div>
-    <mat-toolbar color="primary" class="example-toolbar">
-      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-      <h1 class="example-app-name">Responsive App</h1>
+    <mat-toolbar color="primary" class="toolbar">
+      <mat-icon class="click" (click)="snav.toggle()">menu</mat-icon>
+      <h1 class="app-name">Responsive App</h1>
     </mat-toolbar>
 
-    <mat-sidenav-container class="example-sidenav-container"
+    <mat-sidenav-container class="sidenav-container"
                            [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
       <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
@@ -24,7 +23,6 @@ import { menu } from './menuItems';
         <ng-content></ng-content>
       </mat-sidenav-content>
     </mat-sidenav-container>
-  </div>
   `,
   styleUrls: ['./menu.component.scss']
 })
