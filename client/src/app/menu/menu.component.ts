@@ -16,9 +16,9 @@ import { menu } from './menuItems';
                    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
         <mat-list>
           <div>
-            <mat-list-item class="click" mat-menu-item [routerLink]="nav.path" *ngFor="let nav of menu">
+            <div class="click" mat-menu-item [routerLink]="nav.path" *ngFor="let nav of menu">
               {{nav.text}}
-            </mat-list-item>
+            </div>
             <mat-divider></mat-divider>
           </div>
         </mat-list>

@@ -16,7 +16,7 @@ import { RequestsInterceptor } from './RequestsInterceptor';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -37,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
     MatDividerModule,
     MatButtonModule,
     MatTableModule,
+    MatMenuModule,
   ],
   providers: [
     {
