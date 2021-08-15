@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesService } from './categories.service';
 import { Category } from '../model/category';
+import { map } from 'rxjs/operators'
+import { QuizGroupRequest } from './QuizGroupRequest';
+import { MatDialog } from '@angular/material/dialog';
+import { QuestionarrieChooserComponent } from './questionarrie-chooser/questionarrie-chooser.component';
 
 @Component({
   selector: 'app-categories',
@@ -12,19 +16,30 @@ import { Category } from '../model/category';
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
   displayedColumns = ['id', 'name', '.', '>'];
-  constructor(private categoriesService: CategoriesService, private router: Router) { }
-  
-  ngOnInit(): void { 
+  constructor(private categoriesService: CategoriesService, private router: Router, public dialog: MatDialog) { }
+
+  ngOnInit(): void {
     this.categoriesService.getCategories().subscribe((categories) => {
       this.categories = categories;
     })
   }
 
   goToCategoriesQuiz(category: Category) {
-    this.router.navigateByUrl('/quiz')
+    this.showQuestionarrieChooser().subscribe(result => {
+      // const quizGroupRequest = new QuizGroupRequest([category], );
+      // this.categoriesService.getQuizzes()
+      this.router.navigateByUrl('/quiz', { state: { category }});
+    }, () => {})
   }
 
   joinCategories(category: Category) {
 
   }
+
+  private showQuestionarrieChooser() {
+    return this.dialog.open(QuestionarrieChooserComponent).afterClosed().pipe(
+      map(result => {
+        return result;
+      })
+    )}
 }

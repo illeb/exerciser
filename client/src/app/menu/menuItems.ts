@@ -1,18 +1,13 @@
 const menu: MenuItem[] = [
   {
-    id: 1, 
+    id: 1,
     text: 'Home',
     path: ''
   },
   {
-    id: 1, 
+    id: 2,
     text: 'Quiz generator',
     path: 'quiz'
-  },
-  {
-    id: 1, 
-    text: 'Organize',
-    path: 'organize'
   },
 ]
 

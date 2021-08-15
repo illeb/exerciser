@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CategoriesComponent } from './categories/categories.component';
+import { CategoriesComponent as CategoriesTableComponent } from './categories/categories.component';
+import { QuestionnarieComponent } from './categories/questionarrie/questionarrie.component';
 import { HomeComponent } from './home/home.component';
-import { QuizGeneratorComponent } from './quizGenerator/quiz-generator.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'categories', component: CategoriesComponent },
-  { path: 'quizGenerator', component: QuizGeneratorComponent },
+  { path: 'quiz', component: CategoriesTableComponent, children: [
+    { path: 'start', component: QuestionnarieComponent }
+  ]},
 
 ];
 
