@@ -20,8 +20,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { QuestionnarieComponent } from './categories/questionarrie/questionarrie.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { QuestionarrieChooserComponent } from './categories/questionarrie-chooser/questionarrie-chooser.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -47,6 +49,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatMenuModule,
     MatDialogModule,
     MatFormFieldModule,
+    FormsModule,
+    MatSlideToggleModule,
+    MatInputModule,
   ],
   providers: [
     {

@@ -37,7 +37,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   private showQuestionarrieChooser() {
-    return this.dialog.open(QuestionarrieChooserComponent).afterClosed().pipe(
+    return this.dialog.open(QuestionarrieChooserComponent, {panelClass: 'modalM'} ).afterClosed().pipe(
       map(result => {
         return result;
       })

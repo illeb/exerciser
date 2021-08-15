@@ -1,27 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { QuizGroupRequest } from '../QuizGroupRequest';
 
 @Component({
   selector: 'app-questionarrie-chooser',
   template: `
     <h1 mat-dialog-title>Componi questionario</h1>
     <div mat-dialog-content>
-      <mat-form-field appearance="fill">
-        <mat-label>Favorite Animal</mat-label>
-        <!-- <input matInput [(ngModel)]="data.animal"> -->
+      <mat-form-field class="w100p">
+        <mat-label>Numero domande</mat-label>
+        <input matInput [(ngModel)]="numberQuestions">
       </mat-form-field>
+
+      <br>
+      <mat-slide-toggle [(ngModel)]="isRandom">
+        Casuali
+      </mat-slide-toggle>
     </div>
-    <div mat-dialog-actions>
-      <!-- <button mat-button (click)="onNoClick()">No Thanks</button>
-      <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+
+    <div mat-dialog-actions class="f-push-right">
+      <button mat-button (click)="dialogRef.close()">CHIUDI</button>
+      <button mat-button (click)="avviaQuiz()" cdkFocusInitial>AVVIA QUIZ</button>
     </div>
   `,
   styleUrls: ['./questionarrie-chooser.component.scss']
 })
-export class QuestionarrieChooserComponent implements OnInit {
+export class QuestionarrieChooserComponent {
 
-  constructor() { }
+  numberQuestions: number = 15;
+  isRandom: boolean = true;
+  constructor(public dialogRef: MatDialogRef<QuestionarrieChooserComponent>) {}
 
-  ngOnInit(): void {
+  avviaQuiz() {
+    const quizGroupRequest = new QuizGroupRequest([], this.numberQuestions, false);
+    this.dialogRef.close(quizGroupRequest);
   }
-
 }

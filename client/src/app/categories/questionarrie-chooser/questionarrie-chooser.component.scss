@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  min-height: 400px;
+}
+
+.mat-dialog-content {
+  flex-grow: 1;
+  padding-top: 20px;
+}
