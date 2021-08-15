@@ -17,13 +17,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
+import { QuizGeneratorComponent } from './quizGenerator/quiz-generator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     HomeComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    QuizGeneratorComponent
   ],
   imports: [
     BrowserModule,
