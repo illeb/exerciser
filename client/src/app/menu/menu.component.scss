@@ -32,4 +32,8 @@ h1.app-name {
 
 mat-sidenav-container  {
   height: 100%;
+  
+  mat-sidenav {
+  min-width: 10rem;
+  }
 }

@@ -5,14 +5,14 @@ const menu: MenuItem[] = [
     path: ''
   },
   {
-    id: 1, 
+    id: 2,
     text: 'Quiz generator',
-    path: 'quiz'
+    path: '/quizGenerator'
   },
   {
-    id: 1, 
+    id: 3, 
     text: 'Organize',
-    path: 'organize'
+    path: '/categories'
   },
 ]
 
