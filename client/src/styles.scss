@@ -6,3 +6,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .click {
   cursor: pointer;
 }
+
+.w100p {
+  width: 100%;
+}
+
+.f-push-right {
+  justify-content: flex-end;
+}
+
+.f-push-left {
+  justify-content: flex-start;
+}
