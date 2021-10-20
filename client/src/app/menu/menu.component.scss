@@ -32,8 +32,17 @@ h1.app-name {
 
 mat-sidenav-container  {
   height: 100%;
-  
+
   mat-sidenav {
-  min-width: 10rem;
+    min-width: 10rem;
+
+    .mat-menu-item {
+      min-height: 3rem;
+      display: flex;
+      justify-content: left;
+      padding-left: 1rem;
+      align-items: center;
+
+    }
   }
 }

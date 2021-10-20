@@ -15,12 +15,10 @@ import { menu } from './menuItems';
       <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
         <mat-list>
-          <div>
-            <div class="click" mat-menu-item [routerLink]="nav.path" *ngFor="let nav of menu">
-              {{nav.text}}
-            </div>
-            <mat-divider></mat-divider>
+          <div class="click" mat-menu-item [routerLink]="nav.path" *ngFor="let nav of menu">
+            {{nav.text}}
           </div>
+          <mat-divider></mat-divider>
         </mat-list>
       </mat-sidenav>
 
@@ -31,7 +29,7 @@ import { menu } from './menuItems';
   `,
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
   mobileQuery: MediaQueryList;
   menu = menu;
   private _mobileQueryListener: () => void;
@@ -42,13 +40,7 @@ export class MenuComponent implements OnInit {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  ngOnInit() {
-
-  }
-
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
-
-  shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
 }

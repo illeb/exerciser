@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
+    <app-spinner *ng-if="true"></app-spinner>
     <app-menu>
       <router-outlet>
       </router-outlet>

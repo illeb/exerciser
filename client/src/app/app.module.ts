@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
+import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -17,13 +17,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
-import { QuestionnarieComponent } from './categories/questionarrie/questionarrie.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { QuestionarrieChooserComponent } from './categories/questionarrie-chooser/questionarrie-chooser.component';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { StoreModule } from '@ngrx/store';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { UIReducer } from './store/ui/reducer';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MenuComponent,
     HomeComponent,
     CategoriesComponent,
-    QuestionnarieComponent,
     QuestionarrieChooserComponent
   ],
   imports: [
@@ -52,6 +53,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     FormsModule,
     MatSlideToggleModule,
     MatInputModule,
+    MatCardModule,
+    StoreModule.forRoot({ ui: UIReducer }),
+    SharedModule
   ],
   providers: [
     {
