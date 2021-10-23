@@ -20,7 +20,7 @@ import { QuizGroupRequest } from '../QuizGroupRequest';
 
     <div mat-dialog-actions class="f-push-right">
       <button mat-button (click)="dialogRef.close()">CHIUDI</button>
-      <button mat-button (click)="avviaQuiz()" cdkFocusInitial>AVVIA QUIZ</button>
+      <button mat-button (click)="startQuiz()" cdkFocusInitial>AVVIA QUIZ</button>
     </div>
   `,
   styleUrls: ['./questionarrie-chooser.component.scss']
@@ -31,7 +31,7 @@ export class QuestionarrieChooserComponent {
   isRandom: boolean = true;
   constructor(public dialogRef: MatDialogRef<QuestionarrieChooserComponent>) {}
 
-  avviaQuiz() {
+  startQuiz() {
     const quizGroupRequest = new QuizGroupRequest([], this.numberQuestions, false);
     this.dialogRef.close(quizGroupRequest);
   }

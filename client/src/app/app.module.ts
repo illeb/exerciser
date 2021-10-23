@@ -24,8 +24,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StoreModule } from '@ngrx/store';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { UIReducer } from './store/ui/reducer';
+import { UIReducer } from './state/ui/ui.reducer';
 import { SharedModule } from './shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { SharedModule } from './shared/shared.module';
     MatMenuModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule,
     FormsModule,
     MatSlideToggleModule,
     MatInputModule,

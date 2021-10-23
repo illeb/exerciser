@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@state/app.state';
+import { showSpinner } from '@state/ui/ui.actions';
+import { selectSpinner } from '@state/ui/ui.selectors';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +18,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  spinner$ = this.store.select(selectSpinner);
 
-  constructor() { }
+  constructor(private store: Store<AppState>) {
+  }
 
   generateRandom() {
-    console.log('generate random test');
+    this.store.dispatch(showSpinner({}));
   }
 
 }
