@@ -27,7 +27,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { UIReducer } from './state/ui/ui.reducer';
 import { SharedModule } from './shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -53,20 +53,22 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     FormsModule,
     MatSlideToggleModule,
     MatInputModule,
     MatCardModule,
     StoreModule.forRoot({ ui: UIReducer }),
-    SharedModule
+    SharedModule.forRoot()
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestsInterceptor,
       multi: true
-    }
+    },  
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

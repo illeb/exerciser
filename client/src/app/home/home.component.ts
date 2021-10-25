@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
 import { showSpinner } from '@state/ui/ui.actions';
 import { selectSpinner } from '@state/ui/ui.selectors';
+import { SpinnerService } from '../shared/spinner/spinner.service';
 
 @Component({
   selector: 'app-home',
@@ -18,13 +19,14 @@ import { selectSpinner } from '@state/ui/ui.selectors';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  spinner$ = this.store.select(selectSpinner);
-
-  constructor(private store: Store<AppState>) {
-  }
+  constructor(private store: Store<AppState>, public spinnerService: SpinnerService) { }
 
   generateRandom() {
-    this.store.dispatch(showSpinner({}));
+    this.spinnerService.showSpinner();
+
+    setTimeout(() => {
+      // this.spinnerService.hideSpinner();
+    }, 3000)
   }
 
 }
