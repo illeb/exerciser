@@ -1,3 +1,3 @@
-# pa-concourse-exerciser
+# xerciser
 
-Angular application for pa concourse exercise. Backend is in Typescript-flavoured ExpressJs
+Angular application with ngrx for concourse exercises. Backend is in Typescript-flavoured ExpressJs
