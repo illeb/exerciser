@@ -1,1 +1,1 @@
-# pa-concourse-exerciser
+# concourse-exerciser
