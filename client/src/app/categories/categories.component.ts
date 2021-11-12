@@ -23,10 +23,10 @@ export class CategoriesComponent implements OnInit {
     this.categoriesService.getCategories()
     .pipe(
       finalize(() => {
-        this.spinnerService.hideSpinner()
       }
     )).subscribe((categories) => {
       this.categories = categories;
+      this.spinnerService.hideSpinner()
     })
   }
 
