@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesService } from './categories.service';
 import { Category } from '../model/category';
-import { map } from 'rxjs/operators'
-import { QuizGroupRequest } from './QuizGroupRequest';
+import { finalize, map } from 'rxjs/operators'
+import { SpinnerService } from '../shared/spinner/spinner.service';
 import { MatDialog } from '@angular/material/dialog';
 import { QuestionarrieChooserComponent } from './questionarrie-chooser/questionarrie-chooser.component';
 
@@ -16,10 +16,16 @@ import { QuestionarrieChooserComponent } from './questionarrie-chooser/questiona
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
   displayedColumns = ['id', 'name', '.', '>'];
-  constructor(private categoriesService: CategoriesService, private router: Router, public dialog: MatDialog) { }
+  constructor(private categoriesService: CategoriesService, private router: Router, public dialog: MatDialog, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
-    this.categoriesService.getCategories().subscribe((categories) => {
+    this.spinnerService.showSpinner();
+    this.categoriesService.getCategories()
+    .pipe(
+      finalize(() => {
+        this.spinnerService.hideSpinner()
+      }
+    )).subscribe((categories) => {
       this.categories = categories;
     })
   }

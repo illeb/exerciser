@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
-import { showSpinner } from '@state/ui/ui.actions';
-import { selectSpinner } from '@state/ui/ui.selectors';
 import { SpinnerService } from '../shared/spinner/spinner.service';
 
 @Component({
