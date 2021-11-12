@@ -7,7 +7,7 @@ import { menu } from './menuItems';
   template: `
     <mat-toolbar color="primary" class="toolbar">
       <mat-icon class="click" (click)="snav.toggle()">menu</mat-icon>
-      <h1 class="app-name">Responsive App</h1>
+      <h1 class="app-name">Exerciser</h1>
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container"

@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
-import { QuestionarrieChooserComponent } from './categories/questionarrie-chooser/questionarrie-chooser.component';
+import { QuestionarrieChooserComponent } from './shared/questionarrie-chooser/questionarrie-chooser.component';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StoreModule } from '@ngrx/store';

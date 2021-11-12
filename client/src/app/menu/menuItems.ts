@@ -6,8 +6,8 @@ const menu: MenuItem[] = [
   },
   {
     id: 2,
-    text: 'Quiz generator',
-    path: 'quiz'
+    text: 'Categories',
+    path: 'categories'
   },
 ]
 

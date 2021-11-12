@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoriesService } from './categories.service';
 import { Category } from '../model/category';
-import { finalize, map } from 'rxjs/operators'
+import { filter, finalize, map, mergeMap } from 'rxjs/operators'
 import { SpinnerService } from '../shared/spinner/spinner.service';
 import { MatDialog } from '@angular/material/dialog';
-import { QuestionarrieChooserComponent } from './questionarrie-chooser/questionarrie-chooser.component';
+import { QuestionarrieChooserComponent } from '../shared/questionarrie-chooser/questionarrie-chooser.component';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-categories',
@@ -16,26 +17,31 @@ import { QuestionarrieChooserComponent } from './questionarrie-chooser/questiona
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
   displayedColumns = ['id', 'name', '.', '>'];
-  constructor(private categoriesService: CategoriesService, private router: Router, public dialog: MatDialog, public spinnerService: SpinnerService) { }
+  constructor(private categoriesService: CategoriesService, 
+    private router: Router,
+    public dialog: MatDialog,
+    public spinnerService: SpinnerService,
+    activatedRoute: ActivatedRoute) {
+      activatedRoute.queryParamMap.pipe(
+        filter(params => params.has('modal')),
+        mergeMap(() => this.showQuestionarrieChooser())
+      ).subscribe();
+  }
 
   ngOnInit(): void {
     this.spinnerService.showSpinner();
-    this.categoriesService.getCategories()
-    .pipe(
-      finalize(() => {
-      }
-    )).subscribe((categories) => {
+    this.categoriesService.getCategories().subscribe((categories) => {
       this.categories = categories;
       this.spinnerService.hideSpinner()
     })
   }
 
   goToCategoriesQuiz(category: Category) {
-    this.showQuestionarrieChooser().subscribe(result => {
-      // const quizGroupRequest = new QuizGroupRequest([category], );
-      // this.categoriesService.getQuizzes()
-      this.router.navigateByUrl('/quiz', { state: { category }});
-    }, () => {})
+    this.router.navigate([], {
+      queryParams: { modal: 'open'},
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 
   joinCategories(category: Category) {
@@ -43,9 +49,10 @@ export class CategoriesComponent implements OnInit {
   }
 
   private showQuestionarrieChooser() {
-    return this.dialog.open(QuestionarrieChooserComponent, {panelClass: 'modalM'} ).afterClosed().pipe(
+    return this.dialog.open(QuestionarrieChooserComponent, { panelClass: 'modalM' } ).afterClosed().pipe(
       map(result => {
         return result;
       })
-    )}
+    );
+  }
 }

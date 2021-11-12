@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { QuizGroupRequest } from '../QuizGroupRequest';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
 
 @Component({
   selector: 'app-questionarrie-chooser',
@@ -8,13 +9,13 @@ import { QuizGroupRequest } from '../QuizGroupRequest';
     <h1 mat-dialog-title>Componi questionario</h1>
     <div mat-dialog-content>
       <mat-form-field class="w100p">
-        <mat-label>Numero domande</mat-label>
+        <mat-label>Questions number</mat-label>
         <input matInput [(ngModel)]="numberQuestions">
       </mat-form-field>
 
       <br>
       <mat-slide-toggle [(ngModel)]="isRandom">
-        Casuali
+        Make random
       </mat-slide-toggle>
     </div>
 
@@ -29,7 +30,18 @@ export class QuestionarrieChooserComponent {
 
   numberQuestions: number = 15;
   isRandom: boolean = true;
-  constructor(public dialogRef: MatDialogRef<QuestionarrieChooserComponent>) {}
+  constructor(public dialogRef: MatDialogRef<QuestionarrieChooserComponent>, router: Router, { snapshot }: ActivatedRoute) {
+    this.dialogRef.beforeClosed().subscribe(() => {
+      // Remove query params
+      router.navigate([], {
+        queryParams: {
+          ...snapshot.queryParams,
+          modal: null
+        },
+        queryParamsHandling: 'merge'
+      })
+    })
+  }
 
   startQuiz() {
     const quizGroupRequest = new QuizGroupRequest([], this.numberQuestions, false);
