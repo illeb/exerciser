@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CategoriesService } from './categories.service';
+import { CategoriesService } from '../shared/services/categories.service';
 import { Category } from '../model/category';
 import { filter, finalize, map, mergeMap } from 'rxjs/operators'
 import { SpinnerService } from '../shared/spinner/spinner.service';

@@ -1,28 +1,36 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerService } from './spinner/spinner.service';
+import { MaterialModule } from './material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoriesService } from './services/categories.service';
+
 
 @NgModule({
   declarations: [
     SpinnerComponent
   ],
   imports: [
-    CommonModule,
-    MatProgressSpinnerModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [
-  ],
+  providers: [],
   exports: [
-    SpinnerComponent
+    SpinnerComponent,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { 
   static forRoot() {
     return {
       ngModule: SharedModule,
-      providers: [ SpinnerService ]
+      providers: [ 
+        SpinnerService,
+        CategoriesService
+      ]
     }
   }
 }

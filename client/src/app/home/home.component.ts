@@ -30,9 +30,7 @@ export class HomeComponent {
     activatedRoute.queryParamMap.pipe(
       filter(params => params.has('modal')),
       mergeMap(() => this.showQuestionarrieChooser())
-    ).subscribe(params => {
-      this.showQuestionarrieChooser();
-    })
+    ).subscribe()
   }
 
   openModal() {

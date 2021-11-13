@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Category } from '../model/category';
-import { QuizGroupRequest } from './QuizGroupRequest';
+import { Category } from '../../model/category';
+import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
 
 @Injectable({
   providedIn: 'root'
