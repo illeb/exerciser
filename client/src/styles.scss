@@ -8,8 +8,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   cursor: pointer;
 }
 
-.w100p {
-  width: 100%;
+@for $i from 1 through 20 {
+  .w#{$i*5}p{
+    width: ($i * 5) + 0% !important;
+  }
 }
 
 .f-push-right {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,6 +8,7 @@ import { AppState } from '@state/app.state';
 import { loadCategories } from '@state/quiz/quiz.actions';
 import { selectCategories } from '@state/quiz/quiz.selectors';
 import { BehaviorSubject } from 'rxjs';
+import { Category } from 'src/app/model/category';
 import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
 
 @Component({
@@ -15,21 +17,21 @@ import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
     <h1 mat-dialog-title>Compose questionnarie</h1>
     <div mat-dialog-content>
       <div>
-       <mat-form-field class="example-chip-list" appearance="fill">
+       <mat-form-field class="w100p" appearance="fill">
         <mat-label>Categories</mat-label>
         <mat-chip-list #chipList>
-          <mat-chip *ngFor="let category of selectedCategories" [selectable]="true" [removable]="true"
-            (removed)="removeCategory(category)">
-            {{category}}
+          <mat-chip *ngFor="let category of selectedCategories" [selectable]="true" [removable]="true" (removed)="removeCategory(category)">
+            {{category.name}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-          <input type="text" placeholder="New fruit..." matInput [formControl]="categoriesCtrl" [matAutocomplete]="auto">
+        <input type="text" matInput [formControl]="categoriesCtrl" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList">
         </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          <mat-option *ngFor="let category of categories | async" [value]="category">
-            {{category}}
+        
+        <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let category of categories$ | async" [value]="category">
+            {{category.name}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -48,7 +50,7 @@ import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
 
     <div mat-dialog-actions class="f-push-right">
       <button mat-button (click)="dialogRef.close()">CHIUDI</button>
-      <button mat-button (click)="startQuiz()" cdkFocusInitial>AVVIA QUIZ</button>
+      <button mat-button (click)="startQuiz()" cdkFocusInitial>START</button>
     </div>
   `,
   styleUrls: ['./questionarrie-chooser.component.scss']
@@ -57,11 +59,10 @@ export class QuestionarrieChooserComponent implements OnInit {
   public dialogRef: MatDialogRef<QuestionarrieChooserComponent>;
 
   numberQuestions: number = 15;
-  selectedCategories = [];
-  categories = new BehaviorSubject([]);
+  selectedCategories: Category[] = [];
   isRandom: boolean = true;
   categoriesCtrl = new FormControl();
-  private _categories$ = this.store.select(selectCategories);
+  categories$ = this.store.select(selectCategories);
   constructor(dialogRef: MatDialogRef<QuestionarrieChooserComponent>, router: Router, { snapshot }: ActivatedRoute, private store: Store<AppState>) {
     this.dialogRef = dialogRef;
     this.store = store;
@@ -80,13 +81,10 @@ export class QuestionarrieChooserComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadCategories());
-    this._categories$.subscribe((categories) => {
-      debugger;
-    })
   }
 
-  selected(valueSelected) {
-
+  selected(selected: MatAutocompleteSelectedEvent) {
+    this.selectedCategories = this.selectedCategories.concat(selected.option.value)
   }
 
   removeCategory(category) {

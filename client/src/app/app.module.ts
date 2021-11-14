@@ -14,6 +14,8 @@ import { StoreModule } from '@ngrx/store';
 import { UIReducer } from './state/ui/ui.reducer';
 import { SharedModule } from './shared/shared.module';
 import { QuizReducer } from '@state/quiz/quiz.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { QuizEffects } from '@state/quiz/quiz.effects';
 
 @NgModule({
   declarations: [
@@ -31,8 +33,11 @@ import { QuizReducer } from '@state/quiz/quiz.reducer';
     FormsModule,
     StoreModule.forRoot({
       ui: UIReducer,
-      quiz: QuizReducer 
+      quiz: QuizReducer
     }),
+    EffectsModule.forRoot([
+      QuizEffects
+    ]),
     SharedModule.forRoot()
   ],
   providers: [
