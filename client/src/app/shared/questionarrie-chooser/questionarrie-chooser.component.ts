@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -8,7 +8,7 @@ import { AppState } from '@state/app.state';
 import { loadCategories } from '@state/quiz/quiz.actions';
 import { selectCategories } from '@state/quiz/quiz.selectors';
 import { combineLatest, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { Category } from 'src/app/model/category';
 import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
 
@@ -27,10 +27,10 @@ import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-        <input type="text" #input matInput [formControl]="categoriesCtrl" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList">
+        <input type="text" #input matInput [formControl]="categoriesCtrl" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList" #trigger="matAutocompleteTrigger">
         </mat-chip-list>
         
-        <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="selected($event, trigger)">
           <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
             {{category.name}}
           </mat-option>
@@ -67,7 +67,7 @@ export class QuestionarrieChooserComponent implements OnInit {
   public filteredCategories: Observable<Category[]>;
   public selectedCategories: Category[] = [];
   private categories$: Observable<Category[]>;
-  constructor(dialogRef: MatDialogRef<QuestionarrieChooserComponent>, router: Router, { snapshot }: ActivatedRoute, private store: Store<AppState>) {
+  constructor(dialogRef: MatDialogRef<QuestionarrieChooserComponent>, router: Router, { snapshot }: ActivatedRoute, private store: Store<AppState>, private ngZone: NgZone) {
     this.dialogRef = dialogRef;
     this.store = store;
     this.store.dispatch(loadCategories());
@@ -97,11 +97,13 @@ export class QuestionarrieChooserComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  selected(selected: MatAutocompleteSelectedEvent) {
+  selected(selected: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger) {
     this.selectedCategories = this.selectedCategories.concat(selected.option.value);
-    this.categoriesCtrl.patchValue('')
-    this.categoriesCtrl.updateValueAndValidity();
+    this.categoriesCtrl.reset('');
     this.input.nativeElement.value = '';
+    setTimeout(() => {
+      trigger.openPanel(); // sadly, haven't found any other way to do this :(
+    }, 100)
   }
 
   removeCategory(category) {
