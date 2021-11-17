@@ -5,12 +5,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
+import { QuizGroupRequest } from '@state/quiz/model/QuizGroupRequest';
 import { loadCategories } from '@state/quiz/quiz.actions';
 import { selectCategories } from '@state/quiz/quiz.selectors';
 import { combineLatest, Observable } from 'rxjs';
-import { map, startWith, take } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Category } from 'src/app/model/category';
-import { QuizGroupRequest } from '../../categories/QuizGroupRequest';
 
 @Component({
   selector: 'app-questionarrie-chooser',
@@ -111,7 +111,7 @@ export class QuestionarrieChooserComponent implements OnInit {
   }
 
   startQuiz() {
-    const quizGroupRequest = new QuizGroupRequest([], this.numberQuestions, false);
+    const quizGroupRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
     this.dialogRef.close(quizGroupRequest);
   }
 }

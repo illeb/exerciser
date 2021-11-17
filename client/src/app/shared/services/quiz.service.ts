@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { QuizGroupRequest } from '@state/quiz/model/QuizGroupRequest';
 import { Category } from '../../model/category';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService {
+export class QuizService {
 
   constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>('/categories');
+  getQuizzes(QuizGroupRequest: QuizGroupRequest) {
+    return this.http.post<Category[]>('/generateQuiz', { QuizGroupRequest });
   }
 }
