@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
 import { QuizGroupRequest } from '@state/quiz/model/QuizGroupRequest';
-import { loadCategories } from '@state/quiz/quiz.actions';
+import { loadCategories, getQuizByComposer } from '@state/quiz/quiz.actions';
 import { selectCategories } from '@state/quiz/quiz.selectors';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -111,7 +111,8 @@ export class QuestionarrieChooserComponent implements OnInit {
   }
 
   startQuiz() {
-    const quizGroupRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
-    this.dialogRef.close(quizGroupRequest);
+    const quizRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
+    this.store.dispatch(getQuizByComposer({ quizRequest }));
+    // this.dialogRef.close(quizRequest);
   }
 }

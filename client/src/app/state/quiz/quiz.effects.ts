@@ -22,6 +22,6 @@ export class QuizEffects {
   quizComposer$ = createEffect(() => this.actions$.pipe(
     ofType(getQuizByComposer),
     concatMap(({ quizRequest }) => this.quizService.getQuizzes(quizRequest).pipe(
-      map((values: any[]) => getQuizByComposerSuccess({ result: null }))))
+      map((quizzes: any[]) => getQuizByComposerSuccess({ result: quizzes }))))
   ));
 }

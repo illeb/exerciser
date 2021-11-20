@@ -20,11 +20,11 @@ const getCategories = (): Category[] => {
 }
 
 const getQuiz = (categoryId: number): Quiz[] => {
-  const quizzes = db.prepare(GET_QUIZ_BY_CATEGORY).all(categoryId).map(result => {
-    const answersResult = db.prepare(GET_ANSWERS_BY_QUIZ).all(result.id);
+  const quizzes = db.prepare(GET_QUIZ_BY_CATEGORY).all(categoryId).map(({ id, question, }) => {
+    const answersResult = db.prepare(GET_ANSWERS_BY_QUIZ).all(id);
     const answers = answersResult.map(v => v.answer);
-    const { answer: correctAnswer } = answers.find(answer => answer.isCorrect);
-    return new Quiz(result.quizID, result.question, answers, correctAnswer)
+    const { answer: correctAnswer } = answersResult.find(answer => answer.isCorrect);
+    return new Quiz(id, question, answers, correctAnswer)
   });
 
   return quizzes;
