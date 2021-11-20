@@ -2,6 +2,7 @@ import {CommonRoutesConfig} from '../../common/common.routes.config';
 import express from 'express';
 import * as db from '../../database';
 import { Quiz } from '../../model/quiz';
+import shuffle from 'lodash/shuffle';
 
 interface GetQuizzesParams {
     categories: string[],
@@ -22,11 +23,12 @@ export class QuizRoutes extends CommonRoutesConfig {
       this.app.route(`/generate`)
         .get((req: express.Request, res: express.Response) => {
             const { categories, random, amount } = req.query as any;
-            let quizzes = categories.reduce(( quizzes: Quiz[], categoryId: string) => {
-                return quizzes.concat(db.getQuiz(+categoryId));
-            }, []);
+            let quizzes = db.getQuizzesByCategories([...categories], amount);
+            // let quizzes = categories.reduce(( quizzes: Quiz[], categoryId: string) => {
+            //     return quizzes.concat(db.getQuiz(+categoryId));
+            // }, []);
             if(random === true) {
-                // quizzes = quizzes.shuffle();
+                quizzes = shuffle(quizzes)
             }
             quizzes = quizzes.slice(0, +amount);
             res.status(200).send(quizzes);

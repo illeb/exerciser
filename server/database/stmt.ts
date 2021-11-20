@@ -6,8 +6,11 @@ const CREATE_TABLE_CATEGORIES = `CREATE TABLE IF NOT EXISTS CATEGORIES (id INTEG
 const CREATE_TABLE_QUIZ = `CREATE TABLE IF NOT EXISTS QUIZ (id INTEGER PRIMARY KEY AUTOINCREMENT, question TEXT, fk_category INTEGER, FOREIGN KEY(fk_category) REFERENCES CATEGORIES(id));`
 const CREATE_TABLE_ANSWERS = `CREATE TABLE IF NOT EXISTS ANSWERS (id INTEGER PRIMARY KEY AUTOINCREMENT, answer TEXT, isCorrect BOOLEAN, fk_quiz INTEGER, FOREIGN KEY(fk_quiz) REFERENCES QUIZ(id));`
 const GET_CATEGORIES = `SELECT * FROM CATEGORIES`;
-const GET_QUIZ_BY_CATEGORY = `SELECT id, question FROM QUIZ WHERE fk_category = ?`;
-const GET_QUIZ_BY_CATEGORIES = `SELECT id, question FROM QUIZ WHERE fk_category in ?`;
+const GET_QUIZ_BY_CATEGORY = `SELECT id, question FROM QUIZ WHERE fk_category in ?`;
+const GET_QUIZ_BY_CATEGORIES = (params:TemplateStringsArray, ..._: string[]) => {
+debugger;
+  return `SELECT id, question FROM QUIZ WHERE fk_category in (${'?,'.repeat(params.length).slice(0, -1)}) ORDER BY RANDOM() LIMIT ?`;
+}
 const GET_ANSWERS_BY_QUIZ = `SELECT id, answer, isCorrect FROM ANSWERS WHERE fk_quiz = ?`;
 const INSERT_CATEGORY = `INSERT INTO CATEGORIES (id, name) VALUES (?, ?)`;
 const INSERT_QUIZ = `INSERT INTO QUIZ (id, question, fk_category) VALUES (?, ?, ?)`;

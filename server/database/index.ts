@@ -1,4 +1,4 @@
-import { CREATE_TABLE_CATEGORIES, CREATE_TABLE_ANSWERS, CREATE_TABLE_QUIZ, GET_CATEGORIES, CHECK_TABLE_EXIST, GET_QUIZ_BY_CATEGORY, GET_ANSWERS_BY_QUIZ, INSERT_CATEGORY, INSERT_QUIZ, INSERT_ANSWER } from './stmt';
+import { CREATE_TABLE_CATEGORIES, CREATE_TABLE_ANSWERS, CREATE_TABLE_QUIZ, GET_CATEGORIES, CHECK_TABLE_EXIST, GET_QUIZ_BY_CATEGORY, GET_ANSWERS_BY_QUIZ, INSERT_CATEGORY, INSERT_QUIZ, INSERT_ANSWER, GET_QUIZ_BY_CATEGORIES } from './stmt';
 import betterSqlite from 'better-sqlite3';
 import { Category } from '../model/category';
 import { Quiz } from '../model/quiz';
@@ -30,6 +30,17 @@ const getQuiz = (categoryId: number): Quiz[] => {
   return quizzes;
 }
 
+const getQuizzesByCategories = (categories: number[], limit: number): Quiz[] => {
+  const quizzes = db.prepare(GET_QUIZ_BY_CATEGORIES`${categories.toString()}`).all(categories, limit).map(({ id, question, }) => {
+    const answersResult = db.prepare(GET_ANSWERS_BY_QUIZ).all(id);
+    const answers = answersResult.map(v => v.answer);
+    const { answer: correctAnswer } = answersResult.find(answer => answer.isCorrect);
+    return new Quiz(id, question, answers, correctAnswer)
+  });
+
+  return quizzes;
+}
+
 const putCategory = (category: Category) => {
   const {lastInsertRowid: idCategoria} = db.prepare(INSERT_CATEGORY).run(category.id, category.name);
   category.quiz.forEach((quiz: Quiz) => { 
@@ -41,5 +52,5 @@ const putCategory = (category: Category) => {
   });
 }
 
-export {init, getCategories, getQuiz, putCategory}
+export {init, getCategories, getQuiz, getQuizzesByCategories, putCategory}
 
