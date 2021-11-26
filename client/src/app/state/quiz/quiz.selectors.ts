@@ -4,7 +4,10 @@ import { State as QuizState } from './quiz.reducer';
 
 export const selectCategories = createSelector(
   (state: AppState) => state.quiz,
-  (quizState: QuizState) => {
-    return quizState.categories;
-  }
+  (quizState: QuizState) => quizState.categories
+)
+
+export const selectGeneratedQuiz = createSelector(
+  (state: AppState) => state.quiz,
+  (quizState: QuizState) => quizState.generatedQuiz
 )

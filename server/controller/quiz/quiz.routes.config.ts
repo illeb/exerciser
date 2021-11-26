@@ -22,11 +22,8 @@ export class QuizRoutes extends CommonRoutesConfig {
           
       this.app.route(`/generate`)
         .get((req: express.Request, res: express.Response) => {
-            const { categories, random, amount } = req.query as any;
+            const { categories = [], random, amount = 15 } = req.query as any;
             let quizzes = db.getQuizzesByCategories([...categories], amount);
-            // let quizzes = categories.reduce(( quizzes: Quiz[], categoryId: string) => {
-            //     return quizzes.concat(db.getQuiz(+categoryId));
-            // }, []);
             if(random === true) {
                 quizzes = shuffle(quizzes)
             }

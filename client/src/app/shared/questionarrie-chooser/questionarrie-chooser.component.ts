@@ -113,6 +113,6 @@ export class QuestionarrieChooserComponent implements OnInit {
   startQuiz() {
     const quizRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
     this.store.dispatch(getQuizByComposer({ quizRequest }));
-    // this.dialogRef.close(quizRequest);
+    this.dialogRef.close(quizRequest);
   }
 }
