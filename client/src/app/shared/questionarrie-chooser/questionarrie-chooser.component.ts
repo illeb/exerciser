@@ -3,13 +3,14 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
 import { QuizGroupRequest } from '@state/quiz/model/QuizGroupRequest';
-import { loadCategories, getQuizByComposer } from '@state/quiz/quiz.actions';
+import { loadCategories, getQuizByComposer, getQuizByComposerSuccess } from '@state/quiz/quiz.actions';
 import { selectCategories } from '@state/quiz/quiz.selectors';
 import { combineLatest, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { Category } from 'src/app/model/category';
 
 @Component({
@@ -56,7 +57,7 @@ import { Category } from 'src/app/model/category';
   `,
   styleUrls: ['./questionarrie-chooser.component.scss']
 })
-export class QuestionarrieChooserComponent implements OnInit {
+export class QuestionarrieChooserComponent {
   public dialogRef: MatDialogRef<QuestionarrieChooserComponent>;
   
   @ViewChild('input') input: ElementRef; 
@@ -67,7 +68,7 @@ export class QuestionarrieChooserComponent implements OnInit {
   public filteredCategories: Observable<Category[]>;
   public selectedCategories: Category[] = [];
   private categories$: Observable<Category[]>;
-  constructor(dialogRef: MatDialogRef<QuestionarrieChooserComponent>, router: Router, { snapshot }: ActivatedRoute, private store: Store<AppState>, private ngZone: NgZone) {
+  constructor(dialogRef: MatDialogRef<QuestionarrieChooserComponent>, private router: Router, { snapshot }: ActivatedRoute, private store: Store<AppState>, private actions$: Actions) {
     this.dialogRef = dialogRef;
     this.store = store;
     this.store.dispatch(loadCategories());
@@ -95,8 +96,6 @@ export class QuestionarrieChooserComponent implements OnInit {
     )
   }
 
-  ngOnInit(): void { }
-
   selected(selected: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger) {
     this.selectedCategories = this.selectedCategories.concat(selected.option.value);
     this.categoriesCtrl.reset('');
@@ -113,6 +112,12 @@ export class QuestionarrieChooserComponent implements OnInit {
   startQuiz() {
     const quizRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
     this.store.dispatch(getQuizByComposer({ quizRequest }));
-    this.dialogRef.close(quizRequest);
+    this.actions$.pipe(
+      ofType(getQuizByComposerSuccess),
+      take(1)
+    ).subscribe(() => {
+      this.router.navigate(['quiz'])
+      this.dialogRef.close(quizRequest);
+    })
   }
 }

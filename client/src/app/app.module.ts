@@ -16,6 +16,7 @@ import { SharedModule } from './shared/shared.module';
 import { QuizReducer } from '@state/quiz/quiz.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { QuizEffects } from '@state/quiz/quiz.effects';
+import { QuizComponent } from './quiz/quiz.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { QuizEffects } from '@state/quiz/quiz.effects';
     MenuComponent,
     HomeComponent,
     CategoriesComponent,
-    QuestionarrieChooserComponent
+    QuestionarrieChooserComponent,
+    QuizComponent
   ],
   imports: [
     BrowserModule,

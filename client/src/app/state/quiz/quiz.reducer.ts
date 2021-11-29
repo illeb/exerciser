@@ -6,6 +6,7 @@ import { getQuizByComposerSuccess, loadCategories, loadCategoriesError, loadCate
 export interface State {
   categories: Category[];
   generatedQuiz: Quiz[];
+  
 }
 
 const initialState: State = {
