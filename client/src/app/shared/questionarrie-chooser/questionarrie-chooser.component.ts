@@ -1,5 +1,5 @@
 import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -51,6 +51,7 @@ import { Category } from 'src/app/model/category';
     </div>
 
     <div mat-dialog-actions class="f-push-right">
+      <mat-error *ngIf="categoriesCtrl.invalid">{{getErrorMessage()}}</mat-error>
       <button mat-button (click)="dialogRef.close()">CHIUDI</button>
       <button mat-button (click)="startQuiz()" cdkFocusInitial>START</button>
     </div>
@@ -64,7 +65,7 @@ export class QuestionarrieChooserComponent {
 
   public numberQuestions: number = 15;
   public isRandom: boolean = true;
-  public categoriesCtrl = new FormControl();
+  public categoriesCtrl = new FormControl('', [this.hasSelectedValues()]);
   public filteredCategories: Observable<Category[]>;
   public selectedCategories: Category[] = [];
   private categories$: Observable<Category[]>;
@@ -109,6 +110,13 @@ export class QuestionarrieChooserComponent {
     this.selectedCategories = this.selectedCategories.filter(currCategory => currCategory != category);
   }
 
+  getErrorMessage() {
+    if (this.categoriesCtrl.hasError('emptyList')) {
+      return 'A value is required';
+    }
+    return '';
+  }
+
   startQuiz() {
     const quizRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
     this.store.dispatch(getQuizByComposer({ quizRequest }));
@@ -119,5 +127,11 @@ export class QuestionarrieChooserComponent {
       this.router.navigate(['quiz'])
       this.dialogRef.close(quizRequest);
     })
+  }
+
+  hasSelectedValues(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.touched && this.selectedCategories?.length === 0 ? {emptyList: true} : null;
+    }
   }
 }

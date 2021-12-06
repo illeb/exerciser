@@ -8,26 +8,25 @@ import { Quiz } from '../model/quiz';
 @Component({
   selector: 'app-quiz',
   template: `
+    <div class="progress">
+      <div> {{currentIndex}} of {{totalQuestions}} </div>
+      <mat-progress-bar mode="determinate" [value]="(currentIndex / totalQuestions) * 100"></mat-progress-bar>
+    </div>
 
-    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-<!-- 
     <mat-card>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      <mat-card-title>Domanda numero 088</mat-card-title>
+      <mat-card-subtitle>Category</mat-card-subtitle>
       <mat-card-content>
-        <p>This card indeterminates progress bar.</p>
-        <p>{{longText}}</p>
+        <p>Actual question</p>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-    </mat-card> -->
+    </mat-card>
   `,
   styleUrls: ['./quiz.component.scss']
 })
 export class QuizComponent implements OnInit {
   private quizzes$: Observable<Quiz[]>;
+  currentIndex = 1;
+  totalQuestions = 20;
 
   constructor(private store: Store<AppState>) { 
     this.quizzes$ = store.select(selectGeneratedQuiz);
