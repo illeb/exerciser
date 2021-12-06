@@ -7,7 +7,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
 import { QuizGroupRequest } from '@state/quiz/model/QuizGroupRequest';
-import { loadCategories, getQuizByComposer, getQuizByComposerSuccess } from '@state/quiz/quiz.actions';
+import { loadCategories, generateQuizByComposer, generateQuizByComposerSuccess } from '@state/quiz/quiz.actions';
 import { selectCategories } from '@state/quiz/quiz.selectors';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
@@ -53,7 +53,7 @@ import { Category } from 'src/app/model/category';
     <div mat-dialog-actions class="f-push-right">
       <mat-error *ngIf="categoriesCtrl.invalid">{{getErrorMessage()}}</mat-error>
       <button mat-button (click)="dialogRef.close()">CHIUDI</button>
-      <button mat-button (click)="startQuiz()" cdkFocusInitial>START</button>
+      <button mat-button (click)="startQuestionnarie()" cdkFocusInitial>START</button>
     </div>
   `,
   styleUrls: ['./questionarrie-chooser.component.scss']
@@ -117,11 +117,11 @@ export class QuestionarrieChooserComponent {
     return '';
   }
 
-  startQuiz() {
+  startQuestionnarie() {
     const quizRequest = new QuizGroupRequest(this.selectedCategories, this.numberQuestions, false);
-    this.store.dispatch(getQuizByComposer({ quizRequest }));
+    this.store.dispatch(generateQuizByComposer({ quizRequest }));
     this.actions$.pipe(
-      ofType(getQuizByComposerSuccess),
+      ofType(generateQuizByComposerSuccess),
       take(1)
     ).subscribe(() => {
       this.router.navigate(['quiz'])

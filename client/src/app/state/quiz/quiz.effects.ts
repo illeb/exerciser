@@ -5,7 +5,7 @@ import { Category } from "src/app/model/category";
 import { CategoriesService } from "src/app/shared/services/categories.service";
 import { QuizService } from "src/app/shared/services/quiz.service";
 import { QuizGroupRequest } from "./model/QuizGroupRequest";
-import { loadCategories, loadCategoriesSuccess, getQuizByComposer, getQuizByComposerSuccess } from './quiz.actions';
+import { loadCategories, loadCategoriesSuccess, generateQuizByComposerSuccess, generateQuizByComposer } from './quiz.actions';
 
 @Injectable()
 export class QuizEffects {
@@ -20,8 +20,8 @@ export class QuizEffects {
   ));
 
   quizComposer$ = createEffect(() => this.actions$.pipe(
-    ofType(getQuizByComposer),
+    ofType(generateQuizByComposer),
     concatMap(({ quizRequest }) => this.quizService.getQuizzes(quizRequest).pipe(
-      map((quizzes: any[]) => getQuizByComposerSuccess({ result: quizzes }))))
+      map((quizzes: any[]) => generateQuizByComposerSuccess({ quizzes }))))
   ));
 }

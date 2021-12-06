@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Category } from 'src/app/model/category';
+import { Question } from 'src/app/model/quiz';
 import { QuizGroupRequest } from './model/QuizGroupRequest';
 
 export const loadCategories = createAction('[Quiz Categories] begin');
@@ -12,13 +13,13 @@ export const loadCategoriesError = createAction(
   props<{ error?: string }>()
 );
 
-export const getQuizByComposer = createAction(
+export const generateQuizByComposer = createAction(
   '[Quiz composer] begin',
   props<{ quizRequest: QuizGroupRequest }>()
 );
-export const getQuizByComposerSuccess = createAction(
+export const generateQuizByComposerSuccess = createAction(
   '[Quiz composer] success',
-  props<{ result?: any }>()
+  props<{ quizzes: Question[] }>()
 );
 export const getQuizByComposerError = createAction(
   '[Quiz composer] error'

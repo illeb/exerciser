@@ -1,35 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@state/app.state';
-import { selectGeneratedQuiz } from '@state/quiz/quiz.selectors';
+import { Questionnarie } from '@state/quiz/model/Questionnarie';
+import { selectQuestionnarie } from '@state/quiz/quiz.selectors';
 import { Observable } from 'rxjs';
-import { Quiz } from '../model/quiz';
+import { Question } from '../model/quiz';
 
 @Component({
-  selector: 'app-quiz',
+  selector: 'app-questionnarie',
   template: `
-    <div class="progress">
-      <div> {{currentIndex}} of {{totalQuestions}} </div>
-      <mat-progress-bar mode="determinate" [value]="(currentIndex / totalQuestions) * 100"></mat-progress-bar>
-    </div>
+    <div *ngIf="(questionnarie$ | async) as questionnarie">
 
-    <mat-card>
-      <mat-card-title>Domanda numero 088</mat-card-title>
-      <mat-card-subtitle>Category</mat-card-subtitle>
-      <mat-card-content>
-        <p>Actual question</p>
-      </mat-card-content>
-    </mat-card>
+      <div class="progress" >
+        <div> {{questionnarie.quizIndex + 1}} of {{questionnarie.questions.length}} </div>
+        <mat-progress-bar mode="determinate" [value]="(questionnarie.quizIndex / questionnarie.questions.length) * 100"></mat-progress-bar>
+      </div>
+      
+      <app-question [question]="questionnarie.questions[questionnarie.quizIndex]"> </app-question>
+    </div>
   `,
   styleUrls: ['./quiz.component.scss']
 })
-export class QuizComponent implements OnInit {
-  private quizzes$: Observable<Quiz[]>;
+export class QuestionnarieComponent implements OnInit {
+  questionnarie$: Observable<Questionnarie>;
   currentIndex = 1;
   totalQuestions = 20;
 
   constructor(private store: Store<AppState>) { 
-    this.quizzes$ = store.select(selectGeneratedQuiz);
+    this.questionnarie$ = store.select(selectQuestionnarie);
   }
 
   ngOnInit(): void {

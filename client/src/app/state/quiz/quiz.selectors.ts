@@ -7,7 +7,7 @@ export const selectCategories = createSelector(
   (quizState: QuizState) => quizState.categories
 )
 
-export const selectGeneratedQuiz = createSelector(
+export const selectQuestionnarie = createSelector(
   (state: AppState) => state.quiz,
-  (quizState: QuizState) => quizState.generatedQuiz
+  (quizState: QuizState) => quizState.questionnarie
 )

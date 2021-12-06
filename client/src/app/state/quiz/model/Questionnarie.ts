@@ -1,9 +1,11 @@
-interface quizAnswer {
-  quizId: number;
-  
+import { Question } from "src/app/model/quiz";
+
+interface ChoosenAnswer {
+  quizId: number;  
 }
 
-export interface Questionnarie {
+export class Questionnarie {
   quizIndex: number;
-  answers: 
+  answers: ChoosenAnswer[];
+  questions: Question[];
 }

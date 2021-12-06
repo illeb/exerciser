@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QuizGroupRequest } from '@state/quiz/model/QuizGroupRequest';
+import { Question } from 'src/app/model/quiz';
 import { Category } from '../../model/category';
 
 @Injectable({
@@ -16,6 +17,6 @@ export class QuizService {
       random: quizGroupRequest.random,
       amount: quizGroupRequest.numberQuestions
     }
-    return this.http.get<any[]>('/generate', { params });
+    return this.http.get<Question[]>('/generate', { params });
   }
 }

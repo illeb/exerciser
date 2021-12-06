@@ -4,7 +4,7 @@ export interface Answer {
   correct: boolean;
 }
 
-export class Quiz {
+export class Question {
   id: number | null;
   question: string;
   answers: Answer[] = [];
